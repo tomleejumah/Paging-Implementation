@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<StackApiResponse>() {
             @Override
             public void onResponse(Call<StackApiResponse> call, Response<StackApiResponse> response) {
-
-                Log.d(TAG, "onResponse: "+response.body().toString());
+                StackApiResponse stackApiResponse = response.body();
+                Log.d(TAG, "onResponse: "+ stackApiResponse.has_more);
             }
 
             @Override
