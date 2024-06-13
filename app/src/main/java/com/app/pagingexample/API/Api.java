@@ -1,4 +1,6 @@
-package com.app.pagingexample;
+package com.app.pagingexample.API;
+
+import com.app.pagingexample.Model.StackApiResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.app.pagingexample;
+package com.app.pagingexample.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,12 +13,14 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.pagingexample.R;
+import com.app.pagingexample.Model.StackApiResponse;
 import com.bumptech.glide.Glide;
 
 public class ItemAdapter extends PagedListAdapter<StackApiResponse.Item,ItemAdapter.ItemViewHolder> {
 
     private Context mContext;
-    protected ItemAdapter(Context mContext) {
+    public ItemAdapter(Context mContext) {
         super(diffCallback);
         this.mContext = mContext;
     }

@@ -1,4 +1,4 @@
-package com.app.pagingexample;
+package com.app.pagingexample.API;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

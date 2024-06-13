@@ -1,4 +1,4 @@
-package com.app.pagingexample;
+package com.app.pagingexample.Model;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ public class StackApiResponse {
     public boolean has_more;
     public int quota_max;
     public int quota_remaining;
-    class Item {
+    public class Item {
         public Owner owner;
         public boolean is_accepted;
         public int score;
@@ -17,7 +17,7 @@ public class StackApiResponse {
         public long question_id;
     }
 
-    class Owner {
+    public class Owner {
         public int reputation;
         public long user_id;
         public String user_type;
