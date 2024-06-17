@@ -2,6 +2,7 @@ package com.app.pagingexample.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.pagingexample.MainActivity;
 import com.app.pagingexample.R;
 import com.app.pagingexample.Model.StackApiResponse;
 import com.bumptech.glide.Glide;
@@ -35,6 +37,14 @@ public class ItemAdapter extends PagedListAdapter<StackApiResponse.Item,ItemAdap
     @Override
     public void onBindViewHolder(@NonNull ItemAdapter.ItemViewHolder holder, int position) {
         StackApiResponse.Item item = getItem(position);
+
+        holder.imageView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                ((MainActivity) mContext).startDragging(holder);
+            }
+            return true;
+        });
+
         if (item != null) {
             holder.textView.setText(item.owner.display_name);
             Glide.with(mContext)
@@ -61,11 +71,13 @@ public class ItemAdapter extends PagedListAdapter<StackApiResponse.Item,ItemAdap
 
         TextView textView;
         ImageView imageView;
+        View dragButton;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textViewName);
             imageView = itemView.findViewById(R.id.imageView);
+//            dragButton = itemView.findViewById(R.id.drag_button);
         }
     }
 }

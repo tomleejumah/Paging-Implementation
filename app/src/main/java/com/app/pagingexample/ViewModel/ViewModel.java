@@ -16,7 +16,7 @@ public class ViewModel extends androidx.lifecycle.ViewModel {
 
     public ViewModel(){
         ItemDataSourceFactory itemDataSourceFactory = new ItemDataSourceFactory();
-        liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
+//        liveDataSource = itemDataSourceFactory.getItemLiveDataSource();
 
         PagedList.Config config = (new PagedList.Config.Builder())
                 .setEnablePlaceholders(false)
