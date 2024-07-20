@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +22,8 @@ import com.app.pagingexample.Model.StackApiResponse;
 import com.bumptech.glide.Glide;
 
 public class ItemAdapter extends PagedListAdapter<StackApiResponse.Item,ItemAdapter.ItemViewHolder> {
-
+    public int openedPosition = -1;
+    public float openedOffset = 0;
     private Context mContext;
     public ItemAdapter(Context mContext) {
         super(diffCallback);
@@ -38,6 +41,9 @@ public class ItemAdapter extends PagedListAdapter<StackApiResponse.Item,ItemAdap
     public void onBindViewHolder(@NonNull ItemAdapter.ItemViewHolder holder, int position) {
         StackApiResponse.Item item = getItem(position);
 
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.rc_items_translate_alpha);
+        holder.itemView.startAnimation(animation);
+
         holder.imageView.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 ((MainActivity) mContext).startDragging(holder);
@@ -52,6 +58,13 @@ public class ItemAdapter extends PagedListAdapter<StackApiResponse.Item,ItemAdap
                     .into(holder.imageView);
         }else{
             Toast.makeText(mContext, "Item is null", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void closeOpenedItem() {
+        if (openedPosition != -1) {
+            notifyItemChanged(openedPosition);
+            openedPosition = -1;
+            openedOffset = 0;
         }
     }
 

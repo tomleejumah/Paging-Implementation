@@ -88,85 +88,96 @@ public class MainActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
 
-        swipeHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+        Drawable deleteIcon = getResources().getDrawable(R.drawable.ic_launcher_foreground, null);
+        Drawable editIcon = getResources().getDrawable(R.drawable.ic_launcher_foreground, null);
+        Drawable archiveIcon = getResources().getDrawable(R.drawable.ic_launcher_foreground, null);
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int pos = viewHolder.getAdapterPosition();
-                list.remove(pos);
-                adapter.notifyItemRemoved(pos);
+        int deleteColor = getResources().getColor(android.R.color.holo_red_light);
+        int editColor = getResources().getColor(android.R.color.holo_blue_light);
+        int archiveColor = getResources().getColor(android.R.color.holo_green_light);
 
-//                Snackbar.make(
-//                        findViewById(R.id.ll_main),
-//                        direction == ItemTouchHelper.RIGHT ? "Deleted" : "Archived",
-//                        Snackbar.LENGTH_SHORT
-//                ).show();
-            }
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SingleSwipeCallback(adapter,deleteIcon, editIcon, archiveIcon, deleteColor, editColor, archiveColor));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
-            @Override
-            public void onChildDraw(Canvas canvas, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    View itemView = viewHolder.itemView;
-                    int itemHeight = itemView.getHeight();
-
-                    // Calculate bounds of the itemView for drawing purposes
-                    int top = itemView.getTop();
-                    int bottom = itemView.getBottom();
-                    int left = itemView.getLeft();
-                    int right = itemView.getRight();
-
-                    // Define Paint objects for colors
-                    Paint backgroundPaint = new Paint();
-
-                    // Adjust background color based on swipe direction
-                    if (Math.abs(dX) < width / 3) {
-                        backgroundPaint.setColor(Color.GRAY);
-                    } else if (dX > width / 3) {
-                        backgroundPaint.setColor(deleteColor);
-                    } else {
-                        backgroundPaint.setColor(archiveColor);
-                    }
-
-                    // Draw background color within the bounds of the item
-                    canvas.drawRect(left, top, right, bottom, backgroundPaint);
-
-                    // Print icons within the bounds of the itemView
-                    int iconSize = getResources().getDimensionPixelSize(R.dimen.icon_size); // Adjust as needed
-                    int textMargin = getResources().getDimensionPixelSize(R.dimen.text_margin);
-
-                    // Calculate icon positions
-                    int deleteIconLeft = left + textMargin;
-                    int deleteIconTop = top + (itemHeight - iconSize) / 2; // Center vertically
-                    int deleteIconRight = deleteIconLeft + iconSize;
-                    int deleteIconBottom = deleteIconTop + iconSize;
-
-                    int archiveIconRight = right - textMargin;
-                    int archiveIconLeft = archiveIconRight - iconSize;
-                    int archiveIconTop = top + (itemHeight - iconSize) / 2; // Center vertically
-                    int archiveIconBottom = archiveIconTop + iconSize;
-
-                    // Set bounds for icons
-                    deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
-                    archiveIcon.setBounds(archiveIconLeft, archiveIconTop, archiveIconRight, archiveIconBottom);
-
-                    // Draw icons based on swipe direction
-                    if (dX > 0) {
-                        deleteIcon.draw(canvas);
-                    } else {
-                        archiveIcon.draw(canvas);
-                    }
-
-                    super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                }
-            }
-        });
-
-        swipeHelper.attachToRecyclerView(recyclerView);
+//        swipeHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//                int pos = viewHolder.getAdapterPosition();
+//                list.remove(pos);
+//                adapter.notifyItemRemoved(pos);
+//
+////                Snackbar.make(
+////                        findViewById(R.id.ll_main),
+////                        direction == ItemTouchHelper.RIGHT ? "Deleted" : "Archived",
+////                        Snackbar.LENGTH_SHORT
+////                ).show();
+//            }
+//
+//            @Override
+//            public void onChildDraw(Canvas canvas, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+//                                    float dX, float dY, int actionState, boolean isCurrentlyActive) {
+//                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+//                    View itemView = viewHolder.itemView;
+//                    int itemHeight = itemView.getHeight();
+//
+//                    // Calculate bounds of the itemView for drawing purposes
+//                    int top = itemView.getTop();
+//                    int bottom = itemView.getBottom();
+//                    int left = itemView.getLeft();
+//                    int right = itemView.getRight();
+//
+//                    // Define Paint objects for colors
+//                    Paint backgroundPaint = new Paint();
+//
+//                    // Adjust background color based on swipe direction
+//                    if (Math.abs(dX) < width / 3) {
+//                        backgroundPaint.setColor(Color.GRAY);
+//                    } else if (dX > width / 3) {
+//                        backgroundPaint.setColor(deleteColor);
+//                    } else {
+//                        backgroundPaint.setColor(archiveColor);
+//                    }
+//
+//                    // Draw background color within the bounds of the item
+//                    canvas.drawRect(left, top, right, bottom, backgroundPaint);
+//
+//                    // Print icons within the bounds of the itemView
+//                    int iconSize = getResources().getDimensionPixelSize(R.dimen.icon_size); // Adjust as needed
+//                    int textMargin = getResources().getDimensionPixelSize(R.dimen.text_margin);
+//
+//                    // Calculate icon positions
+//                    int deleteIconLeft = left + textMargin;
+//                    int deleteIconTop = top + (itemHeight - iconSize) / 2; // Center vertically
+//                    int deleteIconRight = deleteIconLeft + iconSize;
+//                    int deleteIconBottom = deleteIconTop + iconSize;
+//
+//                    int archiveIconRight = right - textMargin;
+//                    int archiveIconLeft = archiveIconRight - iconSize;
+//                    int archiveIconTop = top + (itemHeight - iconSize) / 2; // Center vertically
+//                    int archiveIconBottom = archiveIconTop + iconSize;
+//
+//                    // Set bounds for icons
+//                    deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
+//                    archiveIcon.setBounds(archiveIconLeft, archiveIconTop, archiveIconRight, archiveIconBottom);
+//
+//                    // Draw icons based on swipe direction
+//                    if (dX > 0) {
+//                        deleteIcon.draw(canvas);
+//                    } else {
+//                        archiveIcon.draw(canvas);
+//                    }
+//
+//                    super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//                }
+//            }
+//        });
+//
+//        swipeHelper.attachToRecyclerView(recyclerView);
 
         dragHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
             @Override
