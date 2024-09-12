@@ -19,8 +19,8 @@ public class SingleSwipeCallback extends ItemTouchHelper.Callback {
     private float lastDX = 0;
     private int currentPosition = RecyclerView.NO_POSITION;
     private static final String TAG = "SingleSwipeCallback";
-    private final ItemAdapter adapter; // Add this line
-    private RecyclerView recyclerView; // Add this line
+    private final ItemAdapter adapter; 
+    private RecyclerView recyclerView; 
     private boolean isSwiping = false;
     private final Drawable deleteIcon;
     private final Drawable editIcon;
@@ -158,7 +158,7 @@ public class SingleSwipeCallback extends ItemTouchHelper.Callback {
             float swipeThreshold = itemView.getWidth() * ONE_BUTTON_RATIO;
             float maxSwipe = itemView.getWidth() * TWO_BUTTON_RATIO;
 
-            // Limit the swipe
+            // Limiting the swipe
             if (newDX > 0) {
                 newDX = Math.min(newDX, maxSwipe);
             } else {
